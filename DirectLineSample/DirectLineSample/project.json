@@ -1,4 +1,4 @@
-﻿﻿ {
+﻿{
     "dependencies": {
         "Autofac": "3.5.2",
         "Microsoft.Bot.Connector.DirectLine": "3.0.2",
