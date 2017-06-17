@@ -16,7 +16,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text= "{Binding Text}"
-                        Detail="{Binding From.Name}" />
+                        Detail="{Binding From, Converter={StaticResource ChannelAccountToTextConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
