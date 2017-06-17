@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
 
@@ -16,9 +17,12 @@ namespace DirectLineSample.Services
             this.DirectLineClient = directLineClient;
         }
 
-        public Task<IEnumerable<Activity>> GetMessagesAsync(string conversationId, string watermark)
+        public async Task<(IEnumerable<Activity> messages, string watermark)> GetMessagesAsync(string conversationId, string watermark)
         {
-            throw new NotImplementedException();
+            var r = await this.DirectLineClient.Conversations.GetActivitiesAsync(
+                conversationId,
+                watermark);
+            return (r.Activities, r.Watermark);
         }
 
         public async Task SendMessageAsync(string conversationId, string message)

@@ -9,6 +9,6 @@ namespace DirectLineSample.Services
     {
         Task<string> StartConversationAsync();
         Task SendMessageAsync(string conversationId, string message);
-        Task<IEnumerable<Activity>> GetMessagesAsync(string conversationId, string watermark);
+        Task<(IEnumerable<Activity> messages, string watermark)> GetMessagesAsync(string conversationId, string watermark);
     }
 }

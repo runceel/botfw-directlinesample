@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using DirectLineSample.Services;
+using Microsoft.Bot.Connector.DirectLine;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,6 +16,8 @@ namespace DirectLineSample.ViewModels
         private static PropertyChangedEventArgs CanSendMessagePropertyChangedEventArgs { get; } = new PropertyChangedEventArgs(nameof(CanSendMessage));
 
         private IBotService BotService { get; }
+
+        private string Watermark { get; set; }
 
         private string conversationId;
 
@@ -31,6 +36,8 @@ namespace DirectLineSample.ViewModels
         }
 
         public bool CanSendMessage => !string.IsNullOrWhiteSpace(this.ConversationId) && !string.IsNullOrWhiteSpace(this.InputMessage);
+
+        public ObservableCollection<Activity> Messages { get; } = new ObservableCollection<Activity>();
 
         public DelegateCommand SendMessageCommand { get; }
 
@@ -59,6 +66,22 @@ namespace DirectLineSample.ViewModels
         public async void OnNavigatingTo(NavigationParameters parameters)
         {
             this.ConversationId = await this.BotService.StartConversationAsync();
+            var ignore = this.StartGetMessagesLoopAsync(CancellationToken.None);
+        }
+
+        private async Task StartGetMessagesLoopAsync(CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                var result = await this.BotService.GetMessagesAsync(this.ConversationId, this.Watermark);
+                this.Watermark = result.watermark;
+                foreach (var message in result.messages)
+                {
+                    this.Messages.Add(message);
+                }
+
+                await Task.Delay(5000);
+            }
         }
     }
 }

@@ -8,6 +8,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <ListView ItemsSource="{Binding Messages}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text= "{Binding Text}"
+                        Detail="{Binding From.Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
         <StackLayout Orientation="Horizontal"
             Grid.Row="1">
             <Entry Text="{Binding InputMessage, Mode=TwoWay}" 
