@@ -2,7 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="DirectLineSample.Views.MainPage">
-    <Label Text="{Binding Message}"
-        HorizontalOptions="Center"
-        VerticalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackLayout Orientation="Horizontal"
+            Grid.Row="1">
+            <Entry Text="{Binding InputMessage, Mode=TwoWay}" 
+                HorizontalOptions="FillAndExpand" />
+            <Button Text="Send"
+                HorizontalOptions="End"
+                Command="{Binding SendMessageCommand}" />
+        </StackLayout>
+    </Grid>
 </ContentPage>
