@@ -17,7 +17,7 @@ namespace DirectLineSample
 
         protected override async void OnInitialized()
         {
-            await this.NavigationService.NavigateAsync("MainPage");
+            await this.NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes()
@@ -27,6 +27,7 @@ namespace DirectLineSample
             builder.RegisterType<BotService>().As<IBotService>().SingleInstance();
             builder.Update(this.Container);
 
+            this.Container.RegisterTypeForNavigation<NavigationPage>();
             this.Container.RegisterTypeForNavigation<MainPage>();
         }
     }
